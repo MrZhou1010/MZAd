@@ -1,7 +1,7 @@
 # MZAd
 应用App启动后广告页面
 
-// 房子应用启动的方法内
+// 房在应用启动的方法内
 
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.backgroundColor = UIColor.white
