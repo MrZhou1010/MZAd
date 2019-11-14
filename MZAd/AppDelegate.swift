@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window?.rootViewController = nav
         } else {
             // 正常点击icon启动页面，加载广告页
-            let adViewController = MZAdViewController.init(defaultDuration: 6, completion: {
+            let adViewController = MZAdViewController.init(defaultDuration: 3, completion: {
                 self.window?.rootViewController = nav
             })
             let url = "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3313916584,3062335641&fm=26&gp=0.jpg"

@@ -194,7 +194,7 @@ class MZAdViewController: UIViewController {
         
         self.view.addSubview(self.launchImageView)
         self.dataTimer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.main)
-        //self.startTimer()
+        self.startTimer()
     }
 }
 
@@ -203,14 +203,14 @@ extension MZAdViewController {
     /* 设置广告参数 - Parameters:
      **   - url: 路径
      **   - adDuration:             显示时间
-     **   - skipBtnType:            跳过按钮类型，默认 倒计时+跳过
+     **   - skipBtnType:            跳过按钮类型，默认方形跳过+倒计时间
      **   - skipBtnPosition:        跳过按钮位置，默认右上角
      **   - adViewBottomDistance:   图片距底部的距离，默认100
-     **   - transitionType:         过渡的类型，默认没有
+     **   - transitionType:         过渡的类型，默认“fade”
      **   - adImageViewClick:       点击广告回调
      **   - completion:             完成回调
      */
-    public func setAdParams(url: String, adDuration: Int = 3, skipBtnType: MZSkipBtnType = .timer, skipBtnPosition: MZSkipBtnPosition = .rightTop, adViewBottomDistance: CGFloat = 100, transitionType: MZTransitionType = .none, adImageViewClick: (() -> ())?) {
+    public func setAdParams(url: String, adDuration: Int = 3, skipBtnType: MZSkipBtnType = .timer, skipBtnPosition: MZSkipBtnPosition = .rightTop, adViewBottomDistance: CGFloat = 100, transitionType: MZTransitionType = .fade, adImageViewClick: (() -> ())?) {
         self.adDuration = adDuration
         self.skipBtnType = skipBtnType
         self.skipBtnPosition = skipBtnPosition

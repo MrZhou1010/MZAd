@@ -10,7 +10,12 @@ import Foundation
 import UIKit
 
 extension UIImageView {
-    public func setImage(url: String, completion: (() -> ())?)  {
+    /// 设置Gif图像
+    ///
+    /// - Parameters:
+    ///   - url: 图像地址
+    ///   - completion: callback
+    public func setImage(url: String, completion: (() -> ())?) {
         DispatchQueue.global().async {
             guard let data = try? Data(contentsOf: URL(string: url)!) else {
                 return
