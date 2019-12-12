@@ -2,7 +2,7 @@
 //  UIImageView+MZGif.swift
 //  MZAd
 //
-//  Created by 木木 on 2019/11/7.
+//  Created by Mr.Z on 2019/11/7.
 //  Copyright © 2019 Mr.Z. All rights reserved.
 //
 

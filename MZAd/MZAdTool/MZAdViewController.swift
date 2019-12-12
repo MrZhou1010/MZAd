@@ -2,7 +2,7 @@
 //  MZAdViewController.swift
 //  MZAd
 //
-//  Created by 木木 on 2019/11/7.
+//  Created by Mr.Z on 2019/11/7.
 //  Copyright © 2019 Mr.Z. All rights reserved.
 //
 
@@ -37,37 +37,37 @@ enum MZTransitionType {
 
 class MZAdViewController: UIViewController {
     
-    // 默认3s
+    /// 默认3s
     fileprivate var defaultTime = 3
     
-    // 广告图距底部距离
+    /// 广告图距底部距离
     fileprivate var adViewBottomDistance: CGFloat = 100
     
-    // 变换类型
+    /// 变换类型
     fileprivate var transitionType: MZTransitionType = .fade
     
-    // 跳过按钮位置
+    /// 跳过按钮位置
     fileprivate var skipBtnPosition: MZSkipBtnPosition = .rightTop
     
-    // 广告时间
+    /// 广告时间
     fileprivate var adDuration: Int = 0
     
-    // 默认定时器
+    /// 默认定时器
     fileprivate var originalTimer: DispatchSourceTimer?
     
-    // 图片显示定时器
+    /// 图片显示定时器
     fileprivate var dataTimer: DispatchSourceTimer?
     
-    // 图片点击回调
+    /// 图片点击回调
     fileprivate var adImageViewClick: (() -> ())?
     
-    // 图片倒计时完成回调
+    /// 图片倒计时完成回调
     fileprivate var completion: (() -> ())?
     
-    // 动画layer
+    /// 动画layer
     fileprivate var animationLayer: CAShapeLayer?
     
-    // 跳过按钮类型
+    /// 跳过按钮类型
     fileprivate var skipBtnType: MZSkipBtnType = .timer {
         didSet {
             let btnWidth: CGFloat = 60
@@ -77,29 +77,29 @@ class MZAdViewController: UIViewController {
             case .rightBottom:
                 y = kScreenHeight - 50
             case .rightAdViewBottom:
-                y = kScreenHeight - adViewBottomDistance - 50
+                y = kScreenHeight - self.adViewBottomDistance - 50
             default:
                 y = 50
             }
             let timeRect = CGRect(x: kScreenWidth - 70, y: y, width: btnWidth, height: btnHeight);
             let circleRect = CGRect(x: kScreenWidth - 50, y: y, width: btnHeight, height: btnHeight)
-            skipBtn.frame = skipBtnType == .timer ? timeRect : circleRect
-            skipBtn.layer.cornerRadius = skipBtnType == .timer ? 5 : btnHeight * 0.5
-            skipBtn.titleLabel?.font = UIFont.systemFont(ofSize: skipBtnType == .timer ? 13.5 : 12)
-            skipBtn.setTitle(skipBtnType == .timer ? "\(adDuration)s跳过" : "跳过", for: .normal)
+            self.skipBtn.frame = self.skipBtnType == .timer ? timeRect : circleRect
+            self.skipBtn.layer.cornerRadius = skipBtnType == .timer ? 5 : btnHeight * 0.5
+            self.skipBtn.titleLabel?.font = UIFont.systemFont(ofSize: self.skipBtnType == .timer ? 13.5 : 12)
+            self.skipBtn.setTitle(self.skipBtnType == .timer ? "\(self.adDuration)s跳过" : "跳过", for: .normal)
         }
     }
     
-    // 启动页
+    /// 启动页
     fileprivate lazy var launchImageView: UIImageView = {
         let imageView = UIImageView(frame: UIScreen.main.bounds)
         imageView.image = self.getLaunchImage()
         return imageView
     }()
     
-    // 广告图
+    /// 广告图
     fileprivate lazy var launchAdImageView: UIImageView = {
-        let adImageRect = CGRect(x: 0,y: 0, width: kScreenWidth, height: kScreenHeight - adViewBottomDistance)
+        let adImageRect = CGRect(x: 0,y: 0, width: kScreenWidth, height: kScreenHeight - self.adViewBottomDistance)
         let adImageView = UIImageView(frame: adImageRect)
         adImageView.isUserInteractionEnabled = true
         adImageView.alpha = 0.2
@@ -108,7 +108,7 @@ class MZAdViewController: UIViewController {
         return adImageView
     }()
     
-    // 跳过按钮
+    /// 跳过按钮
     fileprivate lazy var skipBtn: UIButton = {
         let button = UIButton(type: .custom)
         button.backgroundColor = UIColor.black.withAlphaComponent(0.3)
@@ -134,7 +134,7 @@ class MZAdViewController: UIViewController {
         self.launchAdRemove(completion: nil)
     }
     
-    // 关闭广告
+    /// 关闭广告
     fileprivate func launchAdRemove(completion: (() -> ())?) {
         if self.originalTimer?.isCancelled == false {
             self.originalTimer?.cancel()
@@ -144,7 +144,7 @@ class MZAdViewController: UIViewController {
         }
         let trans = CATransition()
         trans.duration = 0.5
-        switch transitionType {
+        switch self.transitionType {
         case .rippleEffect:
             trans.type = CATransitionType(rawValue: "rippleEffect")
         case .filpFromLeft:
@@ -171,7 +171,7 @@ class MZAdViewController: UIViewController {
         }
     }
     
-    // 初始化 设置默认显示时间defaultDuration,如果不设置,默认3s
+    /// 初始化 设置默认显示时间defaultDuration,如果不设置,默认3s
     convenience init(defaultDuration: Int = 3, completion: (() -> ())?) {
         self.init(nibName: nil, bundle: nil)
         if defaultDuration >= 1 {
@@ -191,14 +191,13 @@ class MZAdViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
         self.view.addSubview(self.launchImageView)
         self.dataTimer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.main)
         self.startTimer()
     }
 }
 
-// MARK: -- 参数设置
+/// MARK: -- 参数设置
 extension MZAdViewController {
     /* 设置广告参数 - Parameters:
      **   - url: 路径
@@ -212,15 +211,15 @@ extension MZAdViewController {
      */
     public func setAdParams(url: String, adDuration: Int = 3, skipBtnType: MZSkipBtnType = .timer, skipBtnPosition: MZSkipBtnPosition = .rightTop, adViewBottomDistance: CGFloat = 100, transitionType: MZTransitionType = .fade, adImageViewClick: (() -> ())?) {
         self.adDuration = adDuration
-        self.skipBtnType = skipBtnType
         self.skipBtnPosition = skipBtnPosition
+        self.skipBtnType = skipBtnType
         self.adViewBottomDistance = adViewBottomDistance
         self.transitionType = transitionType
         if adDuration < 1 {
             self.adDuration = 1
         }
         if url != "" {
-            self.view.addSubview(launchAdImageView)
+            self.view.addSubview(self.launchAdImageView)
             self.launchAdImageView.setImage(url: url, completion: {
                 // 如果带缓存,并且需要改变按钮状态
                 self.skipBtn.removeFromSuperview()
@@ -243,20 +242,20 @@ extension MZAdViewController {
         self.adImageViewClick = adImageViewClick
     }
     
-    // 添加动画
+    /// 添加动画
     fileprivate func addLayer(view: UIView) {
         let bezierPath = UIBezierPath(ovalIn: view.bounds)
-        animationLayer = CAShapeLayer()
-        animationLayer?.path = bezierPath.cgPath
-        animationLayer?.lineWidth = 1
-        animationLayer?.strokeColor = UIColor.red.cgColor
-        animationLayer?.fillColor = UIColor.clear.cgColor
+        self.animationLayer = CAShapeLayer()
+        self.animationLayer?.path = bezierPath.cgPath
+        self.animationLayer?.lineWidth = 1
+        self.animationLayer?.strokeColor = UIColor.red.cgColor
+        self.animationLayer?.fillColor = UIColor.clear.cgColor
         let animation = CABasicAnimation(keyPath: "strokeStart")
-        animation.duration = Double(adDuration)
+        animation.duration = Double(self.adDuration)
         animation.fromValue = 0
         animation.toValue = 1
-        animationLayer?.add(animation, forKey: nil)
-        view.layer.addSublayer(animationLayer!)
+        self.animationLayer?.add(animation, forKey: nil)
+        view.layer.addSublayer(self.animationLayer!)
     }
 }
 
@@ -266,39 +265,39 @@ extension MZAdViewController {
  ** 3s内若图片加载未完成，执行completion闭包
  */
 extension MZAdViewController {
-    // 默认定时器
+    /// 默认定时器
     fileprivate func startTimer() {
-        originalTimer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.main)
-        originalTimer?.schedule(deadline: DispatchTime.now(), repeating: DispatchTimeInterval.seconds(1), leeway: DispatchTimeInterval.milliseconds(self.defaultTime))
-        originalTimer?.setEventHandler(handler: {
+        self.originalTimer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.main)
+        self.originalTimer?.schedule(deadline: DispatchTime.now(), repeating: DispatchTimeInterval.seconds(1), leeway: DispatchTimeInterval.milliseconds(self.defaultTime))
+        self.originalTimer?.setEventHandler(handler: {
             if self.defaultTime == 0 {
                 self.launchAdRemove(completion: nil)
             }
             self.defaultTime -= 1
         })
-        originalTimer?.resume()
+        self.originalTimer?.resume()
     }
     
-    // 图片倒计时
+    /// 图片倒计时
     fileprivate func adStartTimer() {
         if self.originalTimer?.isCancelled == false {
             self.originalTimer?.cancel()
         }
-        dataTimer?.schedule(deadline: DispatchTime.now(), repeating: DispatchTimeInterval.seconds(1), leeway: DispatchTimeInterval.milliseconds(self.adDuration))
-        dataTimer?.setEventHandler(handler: {
+        self.dataTimer?.schedule(deadline: DispatchTime.now(), repeating: DispatchTimeInterval.seconds(1), leeway: DispatchTimeInterval.milliseconds(self.adDuration))
+        self.dataTimer?.setEventHandler(handler: {
             self.skipBtn.setTitle(self.skipBtnType == .timer ? "\(self.adDuration)s跳过" : "跳过", for: .normal)
             if self.adDuration == 0 {
                 self.launchAdRemove(completion: nil)
             }
             self.adDuration -= 1
         })
-        dataTimer?.resume()
+        self.dataTimer?.resume()
     }
 }
 
-// MARK: -- 状态栏相关
+/// MARK: -- 状态栏相关
 extension MZAdViewController {
-    // 状态栏显示、颜色与General -> Deployment Info中设置一致
+    /// 状态栏显示、颜色与General -> Deployment Info中设置一致
     override var prefersStatusBarHidden: Bool {
         return Bundle.main.infoDictionary?["UIStatusBarHidden"] as! Bool
     }
@@ -309,7 +308,7 @@ extension MZAdViewController {
     }
 }
 
-// MARK: -- 获取启动页
+/// MARK: -- 获取启动页
 extension MZAdViewController {
     fileprivate func getLaunchImage() -> UIImage {
         if self.assetsLaunchImage() != nil || self.storyboardLaunchImage() != nil {
@@ -318,7 +317,7 @@ extension MZAdViewController {
         return UIImage()
     }
     
-    // 获取Assets里LaunchImage
+    /// 获取Assets里LaunchImage
     fileprivate func assetsLaunchImage() -> UIImage? {
         let size = UIScreen.main.bounds.size
         // 横屏"Landscape"
@@ -337,7 +336,7 @@ extension MZAdViewController {
         return nil
     }
     
-    // 获取LaunchScreen.Storyboard
+    /// 获取LaunchScreen.Storyboard
     fileprivate func storyboardLaunchImage() -> UIImage? {
         guard let storyboardLaunchName = Bundle.main.infoDictionary?["UILaunchStoryboardName"] as? String,
             let launchViewController = UIStoryboard(name: storyboardLaunchName, bundle: nil).instantiateInitialViewController() else {
@@ -349,7 +348,7 @@ extension MZAdViewController {
         return image
     }
     
-    // view转换图片
+    /// view转换图片
     fileprivate func viewConvertImage(view: UIView) -> UIImage {
         let size = view.bounds.size
         UIGraphicsBeginImageContextWithOptions(size, false, UIScreen.main.scale)

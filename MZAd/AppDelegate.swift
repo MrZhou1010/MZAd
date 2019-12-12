@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  MZAd
 //
-//  Created by 木木 on 2019/11/7.
+//  Created by Mr.Z on 2019/11/7.
 //  Copyright © 2019 Mr.Z. All rights reserved.
 //
 
@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let nav = UINavigationController.init(rootViewController: mainViewController)
         
         if launchOptions != nil {
-            window?.rootViewController = nav
+            self.window?.rootViewController = nav
         } else {
             // 正常点击icon启动页面，加载广告页
             let adViewController = MZAdViewController.init(defaultDuration: 3, completion: {
@@ -32,14 +32,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // let url = "http://chatm-icon.oss-cn-beijing.aliyuncs.com/pic/pic_20170724152928869.gif"
             let adDuartion = 10
             let adViewBottomDistance: CGFloat = 0.0
-            adViewController.setAdParams(url: url, adDuration: adDuartion, skipBtnType: .timer, skipBtnPosition: .rightTop, adViewBottomDistance: adViewBottomDistance, transitionType: .filpFromLeft, adImageViewClick: {
+            adViewController.setAdParams(url: url, adDuration: adDuartion, skipBtnType: .circle, skipBtnPosition: .rightTop, adViewBottomDistance: adViewBottomDistance, transitionType: .filpFromLeft, adImageViewClick: {
                 let vc = UIViewController()
                 vc.view.backgroundColor = UIColor.orange
                 mainViewController.navigationController?.pushViewController(vc, animated: true)
             })
-            window?.rootViewController = adViewController
+            self.window?.rootViewController = adViewController
         }
-        window?.makeKeyAndVisible()
+        self.window?.makeKeyAndVisible()
         return true
     }
 
