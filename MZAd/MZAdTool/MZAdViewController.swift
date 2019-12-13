@@ -90,6 +90,7 @@ class MZAdViewController: UIViewController {
         }
     }
     
+    // MARK: - Lazy
     /// 启动页
     fileprivate lazy var launchImageView: UIImageView = {
         let imageView = UIImageView(frame: UIScreen.main.bounds)
@@ -118,6 +119,7 @@ class MZAdViewController: UIViewController {
         return button
     }()
     
+    // MARK: - Fucntion
     @objc fileprivate func launchAdTapAction(sender: UITapGestureRecognizer) {
         self.dataTimer?.cancel()
         self.launchAdRemove {
@@ -171,6 +173,7 @@ class MZAdViewController: UIViewController {
         }
     }
     
+    // MARK: - 初始化
     /// 初始化 设置默认显示时间defaultDuration,如果不设置,默认3s
     convenience init(defaultDuration: Int = 3, completion: (() -> ())?) {
         self.init(nibName: nil, bundle: nil)
@@ -197,7 +200,7 @@ class MZAdViewController: UIViewController {
     }
 }
 
-/// MARK: -- 参数设置
+// MARK: - 参数设置
 extension MZAdViewController {
     /* 设置广告参数 - Parameters:
      **   - url: 路径
@@ -259,7 +262,7 @@ extension MZAdViewController {
     }
 }
 
-/* MARK: -- GCD定时器
+/* MARK: - GCD定时器
  ** APP启动后开始默认定时器，默认3s
  ** 3s内若网络图片加载完成，默认定时器关闭，开启图片倒计时
  ** 3s内若图片加载未完成，执行completion闭包
@@ -295,7 +298,7 @@ extension MZAdViewController {
     }
 }
 
-/// MARK: -- 状态栏相关
+// MARK: - 状态栏相关
 extension MZAdViewController {
     /// 状态栏显示、颜色与General -> Deployment Info中设置一致
     override var prefersStatusBarHidden: Bool {
@@ -308,7 +311,7 @@ extension MZAdViewController {
     }
 }
 
-/// MARK: -- 获取启动页
+// MARK: - 获取启动页
 extension MZAdViewController {
     fileprivate func getLaunchImage() -> UIImage {
         if self.assetsLaunchImage() != nil || self.storyboardLaunchImage() != nil {
