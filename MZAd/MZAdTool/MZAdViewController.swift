@@ -81,7 +81,7 @@ class MZAdViewController: UIViewController {
             default:
                 y = 50
             }
-            let timeRect = CGRect(x: kScreenWidth - 70, y: y, width: btnWidth, height: btnHeight);
+            let timeRect = CGRect(x: kScreenWidth - 80, y: y, width: btnWidth, height: btnHeight);
             let circleRect = CGRect(x: kScreenWidth - 50, y: y, width: btnHeight, height: btnHeight)
             self.skipBtn.frame = self.skipBtnType == .timer ? timeRect : circleRect
             self.skipBtn.layer.cornerRadius = skipBtnType == .timer ? 5 : btnHeight * 0.5
