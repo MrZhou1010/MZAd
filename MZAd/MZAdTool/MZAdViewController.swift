@@ -13,19 +13,19 @@ let kScreenWidth: CGFloat = UIScreen.main.bounds.size.width
 /// 屏幕高度
 let kScreenHeight: CGFloat = UIScreen.main.bounds.size.height
 
-enum MZSkipBtnType {
+public enum MZSkipBtnType {
     case none                   // 无跳过按钮
     case timer                  // 方形跳过+倒计时间
     case circle                 // 圆形跳过+倒计动画
 }
 
-enum MZSkipBtnPosition {
+public enum MZSkipBtnPosition {
     case rightTop               // 屏幕右上角
     case rightBottom            // 屏幕右下角
     case rightAdViewBottom      // 广告图右下角
 }
 
-enum MZTransitionType {
+public enum MZTransitionType {
     case none
     case rippleEffect           // 波纹
     case fade                   // 交叉淡化
@@ -41,7 +41,7 @@ class MZAdViewController: UIViewController {
     fileprivate var defaultTime = 3
     
     /// 广告图距底部距离
-    fileprivate var adViewBottomDistance: CGFloat = 100
+    fileprivate var adViewBottomDistance: CGFloat = 100.0
     
     /// 变换类型
     fileprivate var transitionType: MZTransitionType = .fade
@@ -70,22 +70,22 @@ class MZAdViewController: UIViewController {
     /// 跳过按钮类型
     fileprivate var skipBtnType: MZSkipBtnType = .timer {
         didSet {
-            let btnWidth: CGFloat = 60
-            let btnHeight: CGFloat = 30
+            let btnWidth: CGFloat = 60.0
+            let btnHeight: CGFloat = 30.0
             var y: CGFloat = 0
             switch skipBtnPosition {
             case .rightBottom:
                 y = kScreenHeight - 50
             case .rightAdViewBottom:
-                y = kScreenHeight - self.adViewBottomDistance - 50
+                y = kScreenHeight - self.adViewBottomDistance - 50.0
             default:
-                y = 50
+                y = 50.0
             }
-            let timeRect = CGRect(x: kScreenWidth - 80, y: y, width: btnWidth, height: btnHeight);
-            let circleRect = CGRect(x: kScreenWidth - 50, y: y, width: btnHeight, height: btnHeight)
+            let timeRect = CGRect(x: kScreenWidth - 80.0, y: y, width: btnWidth, height: btnHeight);
+            let circleRect = CGRect(x: kScreenWidth - 50.0, y: y, width: btnHeight, height: btnHeight)
             self.skipBtn.frame = self.skipBtnType == .timer ? timeRect : circleRect
-            self.skipBtn.layer.cornerRadius = skipBtnType == .timer ? 5 : btnHeight * 0.5
-            self.skipBtn.titleLabel?.font = UIFont.systemFont(ofSize: self.skipBtnType == .timer ? 13.5 : 12)
+            self.skipBtn.layer.cornerRadius = skipBtnType == .timer ? 5.0 : btnHeight * 0.5
+            self.skipBtn.titleLabel?.font = UIFont.systemFont(ofSize: self.skipBtnType == .timer ? 13.5 : 12.0)
             self.skipBtn.setTitle(self.skipBtnType == .timer ? "\(self.adDuration)s跳过" : "跳过", for: .normal)
         }
     }
@@ -113,7 +113,7 @@ class MZAdViewController: UIViewController {
     fileprivate lazy var skipBtn: UIButton = {
         let button = UIButton(type: .custom)
         button.backgroundColor = UIColor.black.withAlphaComponent(0.3)
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = 5.0
         button.layer.masksToBounds = true
         button.addTarget(self, action: #selector(skipBtnClick), for: .touchUpInside)
         return button
@@ -212,7 +212,7 @@ extension MZAdViewController {
      **   - adImageViewClick:       点击广告回调
      **   - completion:             完成回调
      */
-    public func setAdParams(url: String, adDuration: Int = 3, skipBtnType: MZSkipBtnType = .timer, skipBtnPosition: MZSkipBtnPosition = .rightTop, adViewBottomDistance: CGFloat = 100, transitionType: MZTransitionType = .fade, adImageViewClick: (() -> ())?) {
+    public func setAdParams(url: String, adDuration: Int = 3, skipBtnType: MZSkipBtnType = .timer, skipBtnPosition: MZSkipBtnPosition = .rightTop, adViewBottomDistance: CGFloat = 100.0, transitionType: MZTransitionType = .fade, adImageViewClick: (() -> ())?) {
         self.adDuration = adDuration
         self.skipBtnPosition = skipBtnPosition
         self.skipBtnType = skipBtnType
@@ -238,7 +238,7 @@ extension MZAdViewController {
                 }
                 self.adStartTimer()
                 UIView.animate(withDuration: 0.8, animations: {
-                    self.launchAdImageView.alpha = 1
+                    self.launchAdImageView.alpha = 1.0
                 })
             })
         }
@@ -302,7 +302,7 @@ extension MZAdViewController {
 extension MZAdViewController {
     /// 状态栏显示、颜色与General -> Deployment Info中设置一致
     override var prefersStatusBarHidden: Bool {
-        return Bundle.main.infoDictionary?["UIStatusBarHidden"] as! Bool
+        return Bundle.main.infoDictionary?["UIStatusBarHidden"] as? Bool ?? true
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -361,4 +361,3 @@ extension MZAdViewController {
         return image!
     }
 }
-
