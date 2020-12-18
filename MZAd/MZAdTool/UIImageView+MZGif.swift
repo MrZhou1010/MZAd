@@ -12,13 +12,15 @@ import UIKit
 extension UIImageView {
     
     /// 设置Gif图像
-    ///
     /// - Parameters:
-    ///   - url: 图像地址
+    ///   - urlStr: 图像地址
     ///   - completion: callback
-    public func setImage(url: String, completion: (() -> ())?) {
+    public func setImage(urlStr: String, completion: (() -> ())?) {
         DispatchQueue.global().async {
-            guard let data = try? Data(contentsOf: URL(string: url)!) else {
+            guard let url = URL(string: urlStr) else {
+                return
+            }
+            guard let data = try? Data(contentsOf: url) else {
                 return
             }
             guard let imageSource = CGImageSourceCreateWithData(data as CFData, nil) else {
@@ -36,7 +38,7 @@ extension UIImageView {
                 if totalCount == 1 {
                     // 单张图片
                     gifDuration = Double.infinity
-                    guard let imageData = try? Data(contentsOf: URL(string: url)!), let image = UIImage(data: imageData) else {
+                    guard let imageData = try? Data(contentsOf: url), let image = UIImage(data: imageData) else {
                         return
                     }
                     images.append(image)

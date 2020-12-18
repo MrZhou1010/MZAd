@@ -19,18 +19,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.backgroundColor = UIColor.white
         let mainViewController = ViewController()
         let nav = UINavigationController.init(rootViewController: mainViewController)
-        
         if launchOptions != nil {
             self.window?.rootViewController = nav
         } else {
-            // 正常点击icon启动页面，加载广告页
+            // 正常点击icon启动页面,加载广告页
             let adViewController = MZAdViewController.init(defaultDuration: 3, completion: {
                 self.window?.rootViewController = nav
             })
-            let url = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589372597330&di=a7d6e2137594a59368c7a919af979ae8&imgtype=0&src=http%3A%2F%2Fimg2.tgbusdata.cn%2Fv2%2Fthumb%2Fjpg%2FZmFlMCwwLDAsNCwzLDEsLTEsMCxyazUw%2Fu%2Folpic.tgbusdata.cn%2Fuploads%2Fallimg%2F130904%2F15-130Z4200F9.gif"
-            let adDuartion = 10
+            let urlStr = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589372597330&di=a7d6e2137594a59368c7a919af979ae8&imgtype=0&src=http%3A%2F%2Fimg2.tgbusdata.cn%2Fv2%2Fthumb%2Fjpg%2FZmFlMCwwLDAsNCwzLDEsLTEsMCxyazUw%2Fu%2Folpic.tgbusdata.cn%2Fuploads%2Fallimg%2F130904%2F15-130Z4200F9.gif"
+            let adDuartion = 3
             let adViewBottomDistance: CGFloat = 0.0
-            adViewController.setAdParams(url: url, adDuration: adDuartion, skipBtnType: .circle, skipBtnPosition: .rightTop, adViewBottomDistance: adViewBottomDistance, transitionType: .filpFromLeft, adImageViewClick: {
+            adViewController.setAdParams(urlStr: urlStr, adDuration: adDuartion, skipBtnType: .circle, skipBtnPosition: .rightTop, adViewBottomDistance: adViewBottomDistance, transitionType: .filpFromLeft, adImageViewClicked: {
                 let vc = UIViewController()
                 vc.view.backgroundColor = UIColor.orange
                 mainViewController.navigationController?.pushViewController(vc, animated: true)
@@ -63,4 +62,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 }
-

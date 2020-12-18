@@ -17,4 +17,3 @@ class ViewController: UIViewController {
         self.navigationItem.title = "Ad"
     }
 }
-
