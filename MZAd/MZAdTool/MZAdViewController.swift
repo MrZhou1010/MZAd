@@ -94,7 +94,7 @@ class MZAdViewController: UIViewController {
             let timeRect = CGRect(x: UIScreen.main.bounds.width - btnWidth - spaceWidth, y: y, width: btnWidth, height: btnHeight)
             let circleRect = CGRect(x: UIScreen.main.bounds.width - btnWidth - spaceWidth, y: y, width: btnHeight, height: btnHeight)
             self.skipBtn.frame = self.skipBtnType == .timer ? timeRect : circleRect
-            self.skipBtn.layer.cornerRadius = skipBtnType == .timer ? btnHeight * 0.5 : btnHeight * 0.5
+            self.skipBtn.layer.cornerRadius = self.skipBtnType == .timer ? btnHeight * 0.5 : btnHeight * 0.5
             self.skipBtn.titleLabel?.font = UIFont.systemFont(ofSize: self.skipBtnType == .timer ? 15.0 : 14.0)
             self.skipBtn.setTitle(self.skipBtnType == .timer ? "\(self.adDuration)s跳过" : "跳过", for: .normal)
         }
@@ -226,7 +226,6 @@ class MZAdViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         self.view.addSubview(self.launchImageView)
         self.startTimer()
     }
@@ -256,7 +255,7 @@ extension MZAdViewController {
             return
         }
         self.view.addSubview(self.launchAdImageView)
-        self.launchAdImageView.setImage(urlStr: urlStr, completion: {
+        self.launchAdImageView.setImage(urlStr, completion: {
             // 由于加载广告图是异步操作,网络环境较差时可能页面已经被移除,回调才执行造成定时器还在执行异常
             if self.isLaunchAdRemove {
                 return

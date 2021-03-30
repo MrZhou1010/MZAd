@@ -13,11 +13,11 @@ extension UIImageView {
     
     /// 设置Gif图像
     /// - Parameters:
-    ///   - urlStr: 图像地址
+    ///   - urlString: 图像地址
     ///   - completion: callback
-    public func setImage(urlStr: String, completion: (() -> ())?) {
+    public func setImage(_ urlString: String, completion: (() -> ())?) {
         DispatchQueue.global().async {
-            guard let url = URL(string: urlStr) else {
+            guard let url = URL(string: urlString) else {
                 return
             }
             guard let data = try? Data(contentsOf: url) else {
